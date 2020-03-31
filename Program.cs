@@ -9,6 +9,7 @@ namespace EmployeeWageComputation
         private const int IS_FULL_TIME = 2;
         private const int WAGE_PER_HOUR = 20;
         private const int MAX_WORKING_DAYS = 20;
+        private const int MAX_WORKING_HOURS = 100;
 
         //FUNCTION TO CHECK EMPLOYEE ATTENDENCE RANDOMLY
         public int checkEmployee()
@@ -42,13 +43,16 @@ namespace EmployeeWageComputation
             //VARIABLE
             int dailyWage = 0;
             int monthlyWage = 0;
-
-            for (int i = 0; i < MAX_WORKING_DAYS; i++)
+            int workingHours = 0;
+            int workingDays = 0;
+            int employeeHours = 0;
+            while (workingDays<MAX_WORKING_DAYS && workingHours<MAX_WORKING_HOURS)
             {
-                int employeeHours = 0;
+                workingDays++;
                 Program program = new Program();
                 int employeeAttendenceCheck = program.checkEmployee();
                 employeeHours = program.checkEmployeeHour(employeeAttendenceCheck);
+                workingHours = workingHours + employeeHours;
 
                 //CALCULATING DAILY WAGE
                 dailyWage = WAGE_PER_HOUR * employeeHours;
