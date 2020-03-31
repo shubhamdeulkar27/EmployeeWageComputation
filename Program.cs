@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EmployeeWageComputation
 {
@@ -38,7 +39,7 @@ namespace EmployeeWageComputation
         }
 
         //FUNCTION FOR CALCULATING MONTHLY WAGES
-        public int[] calculateWageForMonth(int MAX_WORKING_DAYS) 
+        public Dictionary <int,int> calculateWageForMonth(int MAX_WORKING_DAYS) 
         {
             //VARIABLE
             int dailyWage = 0;
@@ -46,7 +47,8 @@ namespace EmployeeWageComputation
             int workingHours = 0;
             int workingDays = 0;
             int employeeHours = 0;
-            int[] results = new int[MAX_WORKING_DAYS+1];
+            
+            Dictionary<int,int> results = new Dictionary<int, int>();
 
             while (workingDays<MAX_WORKING_DAYS && workingHours<MAX_WORKING_HOURS)
             {
@@ -55,7 +57,7 @@ namespace EmployeeWageComputation
                 int employeeAttendenceCheck = program.checkEmployee();
                 employeeHours = program.checkEmployeeHour(employeeAttendenceCheck);
                 workingHours = workingHours + employeeHours;
-
+ 
                 //CALCULATING DAILY WAGE
                 dailyWage = WAGE_PER_HOUR * employeeHours;
                 results[workingDays] = dailyWage;
@@ -63,17 +65,18 @@ namespace EmployeeWageComputation
                 workingDays++;
             }
             results[workingDays] = monthlyWage;
+            Console.WriteLine(workingHours);
             return results;
         }
 
         static void Main(string[] args)
         {
             Program program = new Program();
-            int[] Wages = program.calculateWageForMonth(MAX_WORKING_DAYS);
+            Dictionary <int,int> Wages = program.calculateWageForMonth(MAX_WORKING_DAYS);
             Console.WriteLine("Monthly Employee Wage is : ");
-            for (int i = 0; i < Wages.Length; i++)
+            foreach (KeyValuePair<int, int> kv in Wages)
             {
-                Console.Write(Wages[i]+" ");   
+                Console.WriteLine(kv.Key+" "+kv.Value);
             }
         }
     }
