@@ -8,6 +8,7 @@ namespace EmployeeWageComputation
         private const int IS_PART_TIME = 1;
         private const int IS_FULL_TIME = 2;
         private const int WAGE_PER_HOUR = 20;
+        private const int MAX_WORKING_DAYS = 20;
 
         //FUNCTION TO CHECK EMPLOYEE ATTENDENCE RANDOMLY
         public int checkEmployee()
@@ -16,6 +17,7 @@ namespace EmployeeWageComputation
             int randomCheck = random.Next(3);
             return randomCheck;
         }
+        //FUNCTION TO CHECK EMPLOYEE WORKING HOURS
         public int checkEmployeeHour(int employeeAttendenceCheck) 
         {
             int employeeHours = 0;
@@ -33,19 +35,33 @@ namespace EmployeeWageComputation
             }
             return employeeHours;
         }
-        static void Main(string[] args)
-        {   
+
+        //FUNCTION FOR CALCULATING MONTHLY WAGES
+        public int calculateWageForMonth(int MAX_WORKING_DAYS) 
+        {
             //VARIABLE
-            int employeeHours = 0;
             int dailyWage = 0;
+            int monthlyWage = 0;
 
+            for (int i = 0; i < MAX_WORKING_DAYS; i++)
+            {
+                int employeeHours = 0;
+                Program program = new Program();
+                int employeeAttendenceCheck = program.checkEmployee();
+                employeeHours = program.checkEmployeeHour(employeeAttendenceCheck);
+
+                //CALCULATING DAILY WAGE
+                dailyWage = WAGE_PER_HOUR * employeeHours;
+                monthlyWage = monthlyWage + dailyWage;
+            }
+            return monthlyWage;
+        }
+
+        static void Main(string[] args)
+        {
             Program program = new Program();
-            int employeeAttendenceCheck = program.checkEmployee();
-            employeeHours=program.checkEmployeeHour(employeeAttendenceCheck);
-
-            //CALCULATING DAILY WAGE
-            dailyWage = WAGE_PER_HOUR * employeeHours;
-            Console.WriteLine($"Daily Employee Wage is {dailyWage}");
+            int monthlyWage = program.calculateWageForMonth(MAX_WORKING_DAYS);
+            Console.WriteLine($"Monthly Employee Wage is : {monthlyWage}");
         }
     }
 }
