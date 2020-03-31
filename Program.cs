@@ -38,7 +38,7 @@ namespace EmployeeWageComputation
         }
 
         //FUNCTION FOR CALCULATING MONTHLY WAGES
-        public int calculateWageForMonth(int MAX_WORKING_DAYS) 
+        public int[] calculateWageForMonth(int MAX_WORKING_DAYS) 
         {
             //VARIABLE
             int dailyWage = 0;
@@ -46,9 +46,11 @@ namespace EmployeeWageComputation
             int workingHours = 0;
             int workingDays = 0;
             int employeeHours = 0;
+            int[] results = new int[MAX_WORKING_DAYS+1];
+
             while (workingDays<MAX_WORKING_DAYS && workingHours<MAX_WORKING_HOURS)
             {
-                workingDays++;
+                
                 Program program = new Program();
                 int employeeAttendenceCheck = program.checkEmployee();
                 employeeHours = program.checkEmployeeHour(employeeAttendenceCheck);
@@ -56,16 +58,23 @@ namespace EmployeeWageComputation
 
                 //CALCULATING DAILY WAGE
                 dailyWage = WAGE_PER_HOUR * employeeHours;
+                results[workingDays] = dailyWage;
                 monthlyWage = monthlyWage + dailyWage;
+                workingDays++;
             }
-            return monthlyWage;
+            results[workingDays] = monthlyWage;
+            return results;
         }
 
         static void Main(string[] args)
         {
             Program program = new Program();
-            int monthlyWage = program.calculateWageForMonth(MAX_WORKING_DAYS);
-            Console.WriteLine($"Monthly Employee Wage is : {monthlyWage}");
+            int[] Wages = program.calculateWageForMonth(MAX_WORKING_DAYS);
+            Console.WriteLine("Monthly Employee Wage is : ");
+            for (int i = 0; i < Wages.Length; i++)
+            {
+                Console.Write(Wages[i]+" ");   
+            }
         }
     }
 }
